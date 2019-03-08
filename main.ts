@@ -72,7 +72,12 @@ namespace MotorBit {
         S7,
         S8
     }
-    
+    export enum Motors {
+        M1 = 8,
+        M2 = 10,
+        M3 = 12,
+        M4 = 14
+    }
 
     function i2cwrite(addr: number, reg: number, value: number) {
         let buf = pins.createBuffer(2)
@@ -166,7 +171,7 @@ namespace MotorBit {
         }
     }
     
-    //% blockId=Servo block="Servo|num %num|value %value"
+    //% blockId=motorbit_Servo block="Servo|num %num|value %value"
     //% weight=94
     //% blockGap=10
     //% color="#006400"
@@ -180,7 +185,43 @@ namespace MotorBit {
         setPwm(num, 0, pwm);
 
     }
+    //% blockId=motorbit_motor_run block="Motor|%index|speed %speed"
+    //% weight=93
+    //% speed.min=-255 speed.max=255
+    //% name.fieldEditor="gridpicker" name.fieldOptions.columns=4
+    export function MotorRun(index: Motors, speed: number): void {
+        if (!initialized) {
+            initPCA9685()
+        }
+        speed = speed * 16; // map 255 to 4096
+        if (speed >= 4096) {
+            speed = 4095
+        }
+        if (speed <= -4096) {
+            speed = -4095
+        }
 
+        let a = index
+        let b = index + 1
+
+        if (speed >= 0) {
+            setPwm(a, 0, speed)
+            setPwm(b, 0, 0)
+        } else {
+            setPwm(a, 0, 0)
+            setPwm(b, 0, -speed)
+        }
+    }
+
+    //% blockId=motorbit_motor_dual block="Motor|%motor1|speed %speed1|%motor2|speed %speed2"
+    //% weight=92
+    //% speed1.min=-255 speed1.max=255
+    //% speed2.min=-255 speed2.max=255
+    //% name.fieldEditor="gridpicker" name.fieldOptions.columns=4
+    export function MotorRunDual(motor1: Motors, speed1: number, motor2: Motors, speed2: number): void {
+        MotorRun(motor1, speed1);
+        MotorRun(motor2, speed2);
+    }
 
 
 }

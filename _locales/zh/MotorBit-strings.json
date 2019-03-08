@@ -1,7 +1,9 @@
 {
 
 
-  "HelloBot.Music_Car|block": "小车音乐播放|%index",
-  "HelloBot.Servo|block": "舵机|编号 %num|角度 %value"
+  "MotorBit.Music_Car|block": "小车音乐播放|%index",
+  "MotorBit.Servo|block": "舵机|编号 %num|角度 %value",
+  "MotorBit.motorbit_motor_run": " 直流电机|%index|速度 %speed",
+  "MotorBit.motorbit_motor_dual": " "
  
 }
