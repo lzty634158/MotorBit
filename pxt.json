@@ -1,0 +1,20 @@
+{
+    "name": "MotorBit",
+    "version": "1.0.0",
+    "description": "Extension for YahBoom MotorBit",
+    "license": "MIT",
+    "dependencies": {
+        "core": "*"
+    },
+    "files": [
+        "README.md",
+        "main.ts",
+        "_locales/zh/MotorBit-strings.json",
+        "_locales/zh-hant/MotorBit-strings.json"
+
+    ],
+    "testFiles": [
+        "test.ts"
+    ],
+    "public": true
+}

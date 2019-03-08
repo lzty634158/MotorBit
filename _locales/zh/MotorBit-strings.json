@@ -1,0 +1,7 @@
+{
+
+
+  "HelloBot.Music_Car|block": "小车音乐播放|%index",
+  "HelloBot.Servo|block": "舵机|编号 %num|角度 %value"
+ 
+}
