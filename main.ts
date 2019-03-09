@@ -239,7 +239,7 @@ namespace MotorBit {
     //% blockGap=10
     //% color="#006400"
     //% num.min=1 num.max=4 value.min=0 value.max=180
-    //% name.fieldEditor="gridpicker" name.fieldOptions.columns=9
+    //% name.fieldEditor="gridpicker" name.fieldOptions.columns=20
     export function Servo(num: enServo, value: number): void {
 
         // 50hz: 20,000 us
@@ -293,9 +293,10 @@ namespace MotorBit {
 
     //% blockId=motorbit_MotorRunDual block="Motor|%motor1|speed %speed1|%motor2|speed %speed2"
     //% weight=91
+    //% blockGap=50
     //% speed1.min=-255 speed1.max=255
     //% speed2.min=-255 speed2.max=255
-    //% name.fieldEditor="gridpicker" name.fieldOptions.columns=9
+    //% name.fieldEditor="gridpicker" name.fieldOptions.columns=5
     export function MotorRunDual(motor1: enMotors, speed1: number, motor2: enMotors, speed2: number): void {
         MotorRun(motor1, speed1);
         MotorRun(motor2, speed2);
