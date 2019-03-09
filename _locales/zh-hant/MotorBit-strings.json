@@ -1,6 +1,0 @@
-{
-
-  "MotorBit.Music_Car|block": "音樂播放|%index",
-  "MotorBit.Servo_Car|block": "舵機|編號 %num|角度 %value"
-
-}
