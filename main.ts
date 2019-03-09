@@ -276,23 +276,10 @@ namespace MotorBit {
         }
     }
     
-    //% blockId=motorbit_MotorStopAll block="Motor Stop All"
-    //% weight=92
-    //% blockGap=50
-    export function MotorStopAll(): void {
-        if (!initialized) {
-            initPCA9685()
-        }
-        
-        stopMotor(enMotors.M1);
-        stopMotor(enMotors.M2);
-        stopMotor(enMotors.M3);
-        stopMotor(enMotors.M4);
-        
-    }
+
 
     //% blockId=motorbit_MotorRunDual block="Motor|%motor1|speed %speed1|%motor2|speed %speed2"
-    //% weight=91
+    //% weight=92
     //% blockGap=50
     //% speed1.min=-255 speed1.max=255
     //% speed2.min=-255 speed2.max=255
@@ -314,6 +301,20 @@ namespace MotorBit {
         MotorStopAll()
     }
 
+    //% blockId=motorbit_MotorStopAll block="Motor Stop All"
+    //% weight=91
+    //% blockGap=50
+    export function MotorStopAll(): void {
+        if (!initialized) {
+            initPCA9685()
+        }
+        
+        stopMotor(enMotors.M1);
+        stopMotor(enMotors.M2);
+        stopMotor(enMotors.M3);
+        stopMotor(enMotors.M4);
+        
+    }
 
     //% blockId=motorbit_StepperTurn block="Stepper Motor(28BYJ-48) |%index|turn %turn"
     //% weight=89
