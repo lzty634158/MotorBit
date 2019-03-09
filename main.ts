@@ -5,7 +5,7 @@ load dependency
 "HelloBot": "file:../pxt-motorbit"
 */
 
-//% color="#006400" weight=20 icon="\uf085"
+//% color="#ECA40D" weight=20 icon="\uf085"
 namespace MotorBit {
 
     const PCA9685_ADD = 0x40
@@ -248,7 +248,7 @@ namespace MotorBit {
         setPwm(num, 0, pwm);
 
     }
-    //% blockId=motorbit_MotorRun block="Motor|%index|speed %speed"
+    //% blockId=motorbit_MotorRun block="Motor|%index|speed(-255~255) %speed"
     //% weight=93
     //% speed.min=-255 speed.max=255
     //% name.fieldEditor="gridpicker" name.fieldOptions.columns=4
@@ -316,7 +316,7 @@ namespace MotorBit {
         
     }
 
-    //% blockId=motorbit_StepperTurn block="Stepper Motor(28BYJ-48) |%index|turn %turn"
+    //% blockId=motorbit_StepperTurn block="Stepper Motor(28BYJ-48) |%index|turn %turn|circle"
     //% weight=89
     export function StepperTurn(index: enSteppers, turn: enTurns): void {
         let degree = turn;
