@@ -9,8 +9,8 @@
     "files": [
         "README.md",
         "main.ts",
-        "_locales/zh/MotorBit-strings.json",
-        "_locales/zh-hant/MotorBit-strings.json"
+        "_locales/zh-cn/MotorBit-strings.json",
+        "_locales/zh-tw/MotorBit-strings.json"
 
     ],
     "testFiles": [
