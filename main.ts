@@ -207,7 +207,7 @@ namespace MotorBit {
     //% blockId=MotorBit_Music block="Music|%index"
     //% weight=95
     //% blockGap=10
-    //% color="#006400"
+    //% color="#F8431D"
     //% name.fieldEditor="gridpicker" name.fieldOptions.columns=4
     export function Music(index: enMusic): void {
         switch (index) {
@@ -237,7 +237,6 @@ namespace MotorBit {
     //% blockId=motorbit_Servo block="Servo|num %num|value %value"
     //% weight=94
     //% blockGap=10
-    //% color="#006400"
     //% num.min=1 num.max=4 value.min=0 value.max=180
     //% name.fieldEditor="gridpicker" name.fieldOptions.columns=20
     export function Servo(num: enServo, value: number): void {
