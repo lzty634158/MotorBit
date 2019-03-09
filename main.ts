@@ -27,6 +27,18 @@ namespace MotorBit {
 
     const PRESCALE = 0xFE
 
+    const STP_CHA_L = 2047
+    const STP_CHA_H = 4095
+
+    const STP_CHB_L = 1
+    const STP_CHB_H = 2047
+
+    const STP_CHC_L = 1023
+    const STP_CHC_H = 3071
+
+    const STP_CHD_L = 3071
+    const STP_CHD_H = 1023
+
     let initialized = false
 
 
@@ -58,8 +70,27 @@ namespace MotorBit {
     
 
     
-    
-  
+    export enum enSteppers {
+        B1 = 0x1,
+        B2 = 0x2
+    }
+
+    export enum enTurns {
+        //% blockId="T1B4" block="1/4"
+        T1B4 = 90,
+        //% blockId="T1B2" block="1/2"
+        T1B2 = 180,
+        //% blockId="T1B0" block="1"
+        T1B0 = 360,
+        //% blockId="T2B0" block="2"
+        T2B0 = 720,
+        //% blockId="T3B0" block="3"
+        T3B0 = 1080,
+        //% blockId="T4B0" block="4"
+        T4B0 = 1440,
+        //% blockId="T5B0" block="5"
+        T5B0 = 1800
+    }
     
     export enum enServo {
         
@@ -72,7 +103,7 @@ namespace MotorBit {
         S7,
         S8
     }
-    export enum Motors {
+    export enum enMotors {
         M1 = 8,
         M2 = 10,
         M3 = 12,
@@ -135,6 +166,38 @@ namespace MotorBit {
         pins.i2cWriteBuffer(PCA9685_ADD, buf);
     }
 
+    function setStepper(index: number, dir: boolean): void {
+        if (index == enSteppers.B1) {
+            if (dir) {
+                setPwm(11, STP_CHA_L, STP_CHA_H);
+                setPwm(9, STP_CHB_L, STP_CHB_H);
+                setPwm(10, STP_CHC_L, STP_CHC_H);
+                setPwm(8, STP_CHD_L, STP_CHD_H);
+            } else {
+                setPwm(8, STP_CHA_L, STP_CHA_H);
+                setPwm(10, STP_CHB_L, STP_CHB_H);
+                setPwm(9, STP_CHC_L, STP_CHC_H);
+                setPwm(11, STP_CHD_L, STP_CHD_H);
+            }
+        } else {
+            if (dir) {
+                setPwm(12, STP_CHA_L, STP_CHA_H);
+                setPwm(14, STP_CHB_L, STP_CHB_H);
+                setPwm(13, STP_CHC_L, STP_CHC_H);
+                setPwm(15, STP_CHD_L, STP_CHD_H);
+            } else {
+                setPwm(15, STP_CHA_L, STP_CHA_H);
+                setPwm(13, STP_CHB_L, STP_CHB_H);
+                setPwm(14, STP_CHC_L, STP_CHC_H);
+                setPwm(12, STP_CHD_L, STP_CHD_H);
+            }
+        }
+    }
+
+    function stopMotor(index: number) {
+        setPwm(index, 0, 0);
+        setPwm(index + 1, 0, 0);
+    }
     /**
      * *****************************************************************
      * @param index
@@ -146,7 +209,7 @@ namespace MotorBit {
     //% blockGap=10
     //% color="#006400"
     //% name.fieldEditor="gridpicker" name.fieldOptions.columns=4
-    export function Music_Car(index: enMusic): void {
+    export function Music(index: enMusic): void {
         switch (index) {
             case enMusic.dadadum: music.beginMelody(music.builtInMelody(Melodies.Dadadadum), MelodyOptions.Once); break;
             case enMusic.birthday: music.beginMelody(music.builtInMelody(Melodies.Birthday), MelodyOptions.Once); break;
@@ -185,11 +248,11 @@ namespace MotorBit {
         setPwm(num, 0, pwm);
 
     }
-    //% blockId=motorbit_motor_run block="Motor|%index|speed %speed"
+    //% blockId=motorbit_MotorRun block="Motor|%index|speed %speed"
     //% weight=93
     //% speed.min=-255 speed.max=255
     //% name.fieldEditor="gridpicker" name.fieldOptions.columns=4
-    export function MotorRun(index: Motors, speed: number): void {
+    export function MotorRun(index: enMotors, speed: number): void {
         if (!initialized) {
             initPCA9685()
         }
@@ -212,16 +275,74 @@ namespace MotorBit {
             setPwm(b, 0, -speed)
         }
     }
-
-    //% blockId=motorbit_motor_dual block="Motor|%motor1|speed %speed1|%motor2|speed %speed2"
+    
+    //% blockId=motorbit_MotorStopAll block="Motor Stop All"
     //% weight=92
+    //% blockGap=50
+    export function MotorStopAll(): void {
+        if (!initialized) {
+            initPCA9685()
+        }
+        
+        stopMotor(enMotors.M1);
+        stopMotor(enMotors.M2);
+        stopMotor(enMotors.M3);
+        stopMotor(enMotors.M4);
+        
+    }
+
+    //% blockId=motorbit_MotorRunDual block="Motor|%motor1|speed %speed1|%motor2|speed %speed2"
+    //% weight=91
     //% speed1.min=-255 speed1.max=255
     //% speed2.min=-255 speed2.max=255
-    //% name.fieldEditor="gridpicker" name.fieldOptions.columns=4
-    export function MotorRunDual(motor1: Motors, speed1: number, motor2: Motors, speed2: number): void {
+    //% name.fieldEditor="gridpicker" name.fieldOptions.columns=9
+    export function MotorRunDual(motor1: enMotors, speed1: number, motor2: enMotors, speed2: number): void {
         MotorRun(motor1, speed1);
         MotorRun(motor2, speed2);
     }
 
+    //% blockId=motorbit_StepperDegree block="Stepper Motor(28BYJ-48) |%index|degree %degree"
+    //% weight=90
+    export function StepperDegree(index: enSteppers, degree: number): void {
+        if (!initialized) {
+            initPCA9685()
+        }
+        setStepper(index, degree > 0);
+        degree = Math.abs(degree);
+        basic.pause(10240 * degree / 360);
+        MotorStopAll()
+    }
+
+
+    //% blockId=motorbit_StepperTurn block="Stepper Motor(28BYJ-48) |%index|turn %turn"
+    //% weight=89
+    export function StepperTurn(index: enSteppers, turn: enTurns): void {
+        let degree = turn;
+        StepperDegree(index, degree);
+    }
+
+    //% blockId=motorbit_StepperDual block="Dual Stepper Motor(Degree) |M1 %degree1| M2 %degree2"
+    //% weight=88
+    export function StepperDual(degree1: number, degree2: number): void {
+        if (!initialized) {
+            initPCA9685()
+        }
+        setStepper(1, degree1 > 0);
+        setStepper(2, degree2 > 0);
+        degree1 = Math.abs(degree1);
+        degree2 = Math.abs(degree2);
+        basic.pause(10240 * Math.min(degree1, degree2) / 360);
+        if (degree1 > degree2) {
+            stopMotor(enMotors.M3);
+            stopMotor(enMotors.M4);
+            basic.pause(10240 * (degree1 - degree2) / 360);
+        } else {
+            stopMotor(enMotors.M1);
+            stopMotor(enMotors.M2);
+            basic.pause(10240 * (degree2 - degree1) / 360);
+        }
+
+        MotorStopAll()
+    }
 
 }
