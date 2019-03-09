@@ -5,7 +5,7 @@ load dependency
 "HelloBot": "file:../pxt-motorbit"
 */
 
-//% color="#006400" weight=20 icon="\uf1b9"
+//% color="#006400" weight=20 icon="\uf085"
 namespace MotorBit {
 
     const PCA9685_ADD = 0x40
@@ -296,7 +296,7 @@ namespace MotorBit {
     //% blockGap=50
     //% speed1.min=-255 speed1.max=255
     //% speed2.min=-255 speed2.max=255
-    //% name.fieldEditor="gridpicker" name.fieldOptions.columns=5
+    //% name.fieldEditor="gridpicker" name.fieldOptions.columns=2
     export function MotorRunDual(motor1: enMotors, speed1: number, motor2: enMotors, speed2: number): void {
         MotorRun(motor1, speed1);
         MotorRun(motor2, speed2);
