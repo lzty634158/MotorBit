@@ -1,7 +1,7 @@
 {
     "name": "MotorBit",
     "version": "1.0.0",
-    "description": "Extension for YahBoom MotorBit",
+    "description": "Extension for YahBoom MotorBit V1.0",
     "license": "MIT",
     "dependencies": {
         "core": "*"
